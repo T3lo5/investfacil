@@ -64,8 +64,11 @@ coverage/
 htmlcov/
 .coverage
 
-# Database
-db/
+# Database files (keep structure, ignore data)
+*.db
+*.sqlite
+*.sqlite3
+backend/data/
 
 # Docker
 .dockerenv
