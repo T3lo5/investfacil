@@ -27,7 +27,7 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
-// Serve static files from the React build
+// Serve static files from the React build (MUST be before the catch-all route)
 const distPath = path.join(__dirname, '..', 'dist');
 app.use(express.static(distPath));
 
