@@ -1,75 +1,29 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react';
 
-export function OfflineStatus() {
-  const [isOnline, setIsOnline] = useState(typeof navigator !== 'undefined' ? navigator.onLine : true)
+export default function OfflineStatus() {
+  const [isOnline, setIsOnline] = useState(typeof navigator !== 'undefined' ? navigator.onLine : true);
 
   useEffect(() => {
-    const handleOnline = () => setIsOnline(true)
-    const handleOffline = () => setIsOnline(false)
+    const handleOnline = () => setIsOnline(true);
+    const handleOffline = () => setIsOnline(false);
 
-    window.addEventListener('online', handleOnline)
-    window.addEventListener('offline', handleOffline)
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
 
     return () => {
-      window.removeEventListener('online', handleOnline)
-      window.removeEventListener('offline', handleOffline)
-    }
-  }, [])
+      window.removeEventListener('online', handleOnline);
+      window.removeEventListener('offline', handleOffline);
+    };
+  }, []);
 
-  if (isOnline) return null
+  if (isOnline) return null;
 
   return (
-    <div style={styles.container}>
-      <div style={styles.content}>
-        <span style={styles.icon}>📡</span>
-        <div style={styles.text}>
-          <strong>Você está offline</strong>
-          <p>Os dados exibidos podem estar desatualizados. Conecte-se para atualizar.</p>
-        </div>
-        <button 
-          onClick={() => window.location.reload()} 
-          style={styles.button}
-        >
-          Tentar Novamente
-        </button>
-      </div>
+    <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-red-600 text-white px-6 py-3 rounded-full shadow-lg z-50 flex items-center gap-2 animate-bounce">
+      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+      </svg>
+      <span>Você está offline. Algumas funcionalidades podem estar limitadas.</span>
     </div>
-  )
-}
-
-const styles = {
-  container: {
-    position: 'fixed',
-    top: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: '#ff9800',
-    color: 'white',
-    padding: '12px 20px',
-    zIndex: 2000,
-    boxShadow: '0 2px 8px rgba(0,0,0,0.2)',
-  },
-  content: {
-    maxWidth: '1200px',
-    margin: '0 auto',
-    display: 'flex',
-    alignItems: 'center',
-    gap: '16px',
-  },
-  icon: {
-    fontSize: '24px',
-  },
-  text: {
-    flex: 1,
-  },
-  button: {
-    padding: '8px 16px',
-    backgroundColor: 'white',
-    color: '#ff9800',
-    border: 'none',
-    borderRadius: '6px',
-    fontWeight: 'bold',
-    cursor: 'pointer',
-    fontSize: '14px',
-  }
+  );
 }

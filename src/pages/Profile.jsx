@@ -1,0 +1,1 @@
+export default function Profile({ user, setUser }) { return <div className="p-10 text-center">Perfil: {user?.name} <button onClick={() => { localStorage.clear(); setUser(null); }} className="ml-4 text-red-500 underline">Sair</button></div>; }
