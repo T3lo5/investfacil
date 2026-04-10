@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001'
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000'
 
 export function useAssets() {
   const [assets, setAssets] = useState([])
@@ -15,18 +15,18 @@ export function useAssets() {
         setLoading(true)
         
         // Fetch from backend API (which uses Brapi.dev with cache)
-        const response = await axios.get(`${API_URL}/api/quotes?tickers=PETR4,VALE3,ITUB4,BBAS3,WEGE3,LREN3`)
+        const response = await axios.get(`${API_URL}/api/assets/all`)
         
         const formattedStocks = response.data.map(stock => ({
-          ticker: stock.ticker,
-          name: stock.name,
-          type: 'Ações',
-          price: stock.price,
-          change: stock.change,
-          marketCap: formatMarketCap(stock.marketCap),
-          peRatio: stock.pe,
-          dividendYield: stock.dividendYield ? stock.dividendYield * 100 : 0,
-          risk: getRiskLevel(stock.pe, stock.dividendYield),
+          ticker: stock.symbol || stock.ticker,
+          name: stock.name || stock.companyName || stock.ticker,
+          type: stock.type === 'fund' || stock.ticker?.endsWith('11') ? 'FIIs' : 'Ações',
+          price: stock.regularMarketPrice || stock.price || 0,
+          change: stock.regularMarketChangePercent || stock.change || 0,
+          marketCap: formatMarketCap(stock.marketCap || stock.market_cap),
+          peRatio: stock.pe || stock.trailingPE,
+          dividendYield: stock.dividendYield ? stock.dividendYield * 100 : (stock.fundsDividendYield || 0),
+          risk: getRiskLevel(stock.pe || stock.trailingPE, stock.dividendYield || stock.fundsDividendYield),
           description: 'Dados em tempo real via Brapi.dev',
           pros: ['Preço atualizado', 'Dados reais de mercado'],
           cons: ['Free tier - limite de requests']
@@ -36,7 +36,7 @@ export function useAssets() {
         setError(null)
       } catch (err) {
         console.error('API Error:', err.message)
-        setError('Não foi possível carregar dados em tempo real. Usando modo offline.')
+        setError('Não foi possível carregar dados em tempo real. Verifique sua conexão.')
         // Don't set empty assets, let user search for specific stocks
         setAssets([])
       } finally {
