@@ -1,74 +1,81 @@
-# InvestFácil 📈💰
+# InvestFácil 📈
 
-Encontre os melhores investimentos com facilidade! Uma aplicação PWA moderna para análise de ativos financeiros brasileiros.
+Plataforma inteligente de análise de investimentos com perfil de investidor personalizado.
 
-## ✨ Funcionalidades
+## 🚀 Funcionalidades
 
-- 🔍 **Busca Inteligente** - Pesquise por ticker ou nome do ativo
-- 🎯 **Filtros Avançados** - Filtre por tipo (Ações, FIIs, Renda Fixa) e nível de risco
-- 📊 **Ordenação** - Organize por preço, rentabilidade ou nome
-- 📱 **PWA** - Instale no seu celular e use offline
-- 🔄 **Cache Automático** - Dados em cache por 15 minutos
-- ⚡ **APIs Gratuitas** - Integração com BrasilAPI e Brapi.dev
-- 📉 **Status Offline** - Detecta automaticamente quando está sem conexão
-- 💡 **Simulação** - Calcule retornos mensais e anuais estimados
+- **Autenticação**: Login e registro de usuários
+- **Perfil de Investidor**: Conservador, Moderado ou Agressivo
+- **Busca de Ativos**: Integração com Brapi.dev (ações brasileiras)
+- **Análise Inteligente**: Algoritmo que considera seu perfil para recomendar investimentos
+- **Cache Inteligente**: Reduz requisições à API (importante para free tier)
+- **PWA**: Funciona offline com service worker
+- **Modo Escuro**: Toggle de tema claro/escuro
 
-## 🚀 Tecnologias
+## 🛠️ Tecnologias
 
-- **React 18** - Biblioteca UI moderna
-- **Vite** - Build ultra-rápido
-- **React Query** - Gerenciamento de estado e cache
-- **Axios** - Cliente HTTP
-- **Vite PWA Plugin** - Service Worker e manifest
-- **CSS Inline** - Estilização simples e performática
+### Frontend
+- React + Vite
+- TailwindCSS
+- React Router DOM
+- React Query (cache)
 
-## 🛠️ Instalação
+### Backend
+- Node.js + Express
+- SQLite (banco de dados local)
+- JWT (autenticação)
+- bcryptjs (hash de senhas)
 
+## 📦 Instalação
+
+### Backend
 ```bash
-# Instalar dependências
+cd backend
 npm install
-
-# Rodar em desenvolvimento
-npm run dev
-
-# Build para produção
-npm run build
-
-# Preview da build
-npm run preview
+cp .env.example .env  # Edite com suas chaves
+npm start
 ```
 
-## 📦 APIs Utilizadas
+### Frontend
+```bash
+npm install
+npm run dev
+```
 
-- **[Brapi.dev](https://brapi.dev/)** - Cotações de ações em tempo real (gratuito, sem chave)
-- **[BrasilAPI](https://brasilapi.com.br/)** - Dados de FIIs e outros ativos (gratuito, sem chave)
+### Docker
+```bash
+cd backend
+docker-compose up -d
+```
 
-> ✅ Ambas as APIs são gratuitas e não requerem autenticação!
+## 🔐 Variáveis de Ambiente
 
-## 🌐 Deploy
+O arquivo `.env` no backend contém:
+- `BRAPI_TOKEN`: Token da API Brapi.dev
+- `JWT_SECRET`: Chave secreta para JWT
+- `PORT`: Porta do servidor (5000)
 
-O projeto está configurado para deploy em qualquer plataforma que suporte Node.js:
+**Nunca commitar o .env no Git!**
 
-- **Vercel**: `vercel deploy`
-- **Netlify**: Conecte o repositório no Netlify
-- **GitHub Pages**: Use a action de deploy do GitHub
+## 📊 Algoritmo de Análise
 
-## 📱 PWA
+O sistema considera:
+1. **Perfil de Risco**: Compatibilidade entre risco do ativo e tolerância do usuário
+2. **Valuation**: P/E ratio para identificar ativos sub/sobrevalorizados
+3. **Dividendos**: Yield para investidores focados em renda
+4. **Horizonte Temporal**: Ajusta recomendações baseado no tempo até o objetivo
+5. **Projeção Financeira**: Calcula probabilidade de atingir metas
 
-Para instalar como aplicativo:
+## 🎯 Perfis de Investidor
 
-1. Acesse o site no Chrome/Edge
-2. Clique no ícone de instalar na barra de endereço
-3. Ou menu → "Instalar aplicativo"
+- **Conservador**: Prioriza segurança, baixa tolerância a risco (1-2)
+- **Moderado**: Equilíbrio entre segurança e crescimento (3)
+- **Agressivo**: Foco em maximizar retornos, alta tolerância (4-5)
 
-## ⚠️ Disclaimer
+## ⚠️ Aviso Legal
 
-Este aplicativo é apenas para **fins educacionais**. As informações não constituem recomendação de investimento. Sempre consulte um assessor financeiro certificado antes de tomar decisões de investimento.
+Este sistema é apenas para fins educacionais. Não constitui recomendação de investimento. Consulte um profissional financeiro antes de investir.
 
-## 📄 Licença
+## 📝 License
 
-MIT - Sinta-se livre para usar e modificar!
-
----
-
-Feito com ❤️ para investidores brasileiros
+MIT
