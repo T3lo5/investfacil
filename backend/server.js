@@ -1,7 +1,6 @@
 const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
-const path = require('path');
 
 dotenv.config();
 
@@ -27,17 +26,14 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
-// Serve static files from the React build (MUST be before the catch-all route)
-const distPath = path.join(__dirname, '..', 'dist');
-app.use(express.static(distPath));
-
-// Handle React Router - return index.html for all non-API routes
-app.get('*', (req, res) => {
-  res.sendFile(path.join(distPath, 'index.html'));
-});
+// NOTA PARA DESENVOLVIMENTO:
+// O frontend deve ser rodado separadamente com 'npm run dev' na raiz do projeto.
+// O Vite servirá os arquivos estáticos em http://localhost:5173
+// O backend roda em http://localhost:5000 apenas para API.
+// Isso evita problemas de MIME type com hashes dos arquivos buildados.
 
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
+  console.log(`🚀 Backend API rodando em http://localhost:${PORT}`);
+  console.log(`📡 Frontend deve rodar em http://localhost:5173 (com 'npm run dev')`);
   console.log(`📊 Environment: ${process.env.NODE_ENV}`);
-  console.log(`📁 Serving static files from: ${distPath}`);
 });
