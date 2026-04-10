@@ -1,20 +1,19 @@
 import { useState } from 'react';
-import { useAuth } from '../contexts/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
 
-export default function Header() {
+export default function Header({ user, setUser }) {
   const [darkMode, setDarkMode] = useState(false);
-  const { isAuthenticated, user, logout, openAuthModal } = useAuth();
   const navigate = useNavigate();
-
+  
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
     document.documentElement.classList.toggle('dark');
   };
-
+  
   const handleLogout = () => {
-    logout();
-    navigate('/');
+    localStorage.removeItem('investfacil_user');
+    setUser(null);
+    navigate('/login');
   };
 
   return (
@@ -31,31 +30,39 @@ export default function Header() {
 
           {/* Navigation */}
           <nav className="flex items-center space-x-4">
-            {isAuthenticated ? (
+            {user ? (
               <>
                 <Link
-                  to="/perfil"
+                  to="/profile"
                   className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
                 >
                   Meu Perfil
                 </Link>
                 <span className="text-gray-600 dark:text-gray-400 text-sm">
-                  Olá, {user?.name?.split(' ')[0]}
+                  Olá, {user?.name?.split(' ')[0] || user?.email?.split('@')[0]}
                 </span>
                 <button
                   onClick={handleLogout}
-                  className="text-red-600 hover:text-red-700 dark:text-red-400 text-sm"
+                  className="text-red-600 hover:text-red-700 dark:text-red-400 text-sm font-medium"
                 >
                   Sair
                 </button>
               </>
             ) : (
-              <button
-                onClick={openAuthModal}
-                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors text-sm font-semibold"
-              >
-                Entrar / Criar Conta
-              </button>
+              <>
+                <Link
+                  to="/login"
+                  className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors text-sm font-medium"
+                >
+                  Entrar
+                </Link>
+                <Link
+                  to="/register"
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors text-sm font-semibold"
+                >
+                  Criar Conta
+                </Link>
+              </>
             )}
 
             {/* Dark Mode Toggle */}
