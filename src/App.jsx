@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import { useState, useEffect } from "react";
 import Header from "./components/Header";
 import OfflineStatus from "./components/OfflineStatus";
+import MockDataWarning from "./components/MockDataWarning";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Onboarding from "./pages/Onboarding";
@@ -35,7 +36,8 @@ function App() {
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-200">
         <Header user={user} setUser={setUser} />
         <OfflineStatus />
-        
+        <MockDataWarning />
+
         <main className="container mx-auto px-4 py-6">
           <Routes>
             <Route path="/login" element={!user ? <Login setUser={setUser} /> : <Navigate to="/dashboard" />} />

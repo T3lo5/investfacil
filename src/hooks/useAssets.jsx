@@ -8,11 +8,13 @@ export function useAssets() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [searchQuery, setSearchQuery] = useState('')
-
+  const [isUsingMockData, setIsUsingMockData] = useState(false)
+  
   useEffect(() => {
     const fetchAssets = async () => {
       try {
         setLoading(true)
+        setIsUsingMockData(false)
         
         // Fetch from backend API (which uses Brapi.dev with cache)
         const response = await axios.get(`${API_URL}/api/assets/all`)
@@ -37,8 +39,17 @@ export function useAssets() {
       } catch (err) {
         console.error('API Error:', err.message)
         setError('Não foi possível carregar dados em tempo real. Verifique sua conexão.')
-        // Don't set empty assets, let user search for specific stocks
-        setAssets([])
+        // Dados mock para fallback quando API está offline
+        setIsUsingMockData(true)
+        const mockAssets = [
+          { ticker: 'PETR4', name: 'Petróleo Brasileiro S.A.', type: 'Ações', price: 38.50, change: 1.2, marketCap: '500B', peRatio: 4.5, dividendYield: 8.5, risk: 'baixo', description: 'Dados simulados (offline)', pros: ['Alto dividend yield'], cons: ['Dados não atualizados'] },
+          { ticker: 'VALE3', name: 'Vale S.A.', type: 'Ações', price: 68.90, change: -0.8, marketCap: '350B', peRatio: 5.2, dividendYield: 7.2, risk: 'baixo', description: 'Dados simulados (offline)', pros: ['Empresa sólida'], cons: ['Dados não atualizados'] },
+          { ticker: 'ITUB4', name: 'Itaú Unibanco', type: 'Ações', price: 33.20, change: 0.5, marketCap: '320B', peRatio: 9.8, dividendYield: 5.5, risk: 'medio', description: 'Dados simulados (offline)', pros: ['Banco líder'], cons: ['Dados não atualizados'] },
+          { ticker: 'BBAS3', name: 'Banco do Brasil', type: 'Ações', price: 55.40, change: -1.1, marketCap: '180B', peRatio: 7.5, dividendYield: 6.8, risk: 'medio', description: 'Dados simulados (offline)', pros: ['Bom valuation'], cons: ['Dados não atualizados'] },
+          { ticker: 'WEGE3', name: 'WEG S.A.', type: 'Ações', price: 42.10, change: 2.3, marketCap: '280B', peRatio: 28.5, dividendYield: 1.8, risk: 'alto', description: 'Dados simulados (offline)', pros: ['Crescimento consistente'], cons: ['Dados não atualizados'] },
+          { ticker: 'MXRF11', name: 'Maxi Renda', type: 'FIIs', price: 10.50, change: 0.2, marketCap: '5B', peRatio: null, dividendYield: 12.5, risk: 'baixo', description: 'Dados simulados (offline)', pros: ['High yield'], cons: ['Dados não atualizados'] },
+        ]
+        setAssets(mockAssets)
       } finally {
         setLoading(false)
       }
@@ -86,6 +97,7 @@ export function useAssets() {
     assets, 
     loading, 
     error,
+    isUsingMockData,
     searchAsset,
     getQuote,
     analyzeInvestment,
