@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-export function SearchBar({ onSearch, onFilterType, onFilterRisk, onSort }) {
+function SearchBar({ onSearch, onFilterType, onFilterRisk, onSort }) {
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedType, setSelectedType] = useState('todos')
   const [selectedRisk, setSelectedRisk] = useState('todos')
@@ -98,3 +98,5 @@ const styles = {
     minWidth: '150px',
   }
 }
+
+export default SearchBar

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-export function DetailModal({ asset, onClose }) {
+function DetailModal({ asset, onClose }) {
   const [investmentAmount, setInvestmentAmount] = useState(1000)
 
   if (!asset) return null
@@ -322,3 +322,5 @@ const styles = {
     margin: 0,
   },
 }
+
+export default DetailModal
